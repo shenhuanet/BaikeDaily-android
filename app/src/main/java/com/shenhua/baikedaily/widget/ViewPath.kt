@@ -9,7 +9,7 @@ class ViewPath {
 
     private val mPoints: ArrayList<ViewPoint> = ArrayList()
 
-    val points: Collection<ViewPoint>
+    val points: ArrayList<ViewPoint>
         get() = mPoints
 
     fun moveTo(x: Float, y: Float) {

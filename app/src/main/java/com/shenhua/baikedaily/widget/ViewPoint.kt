@@ -7,13 +7,13 @@ package com.shenhua.baikedaily.widget
  */
 class ViewPoint {
 
-    private var x: Float = 0.toFloat()
-    private var y: Float = 0.toFloat()
-    private var x1: Float = 0.toFloat()
-    private var y1: Float = 0.toFloat()
-    private var x2: Float = 0.toFloat()
-    private var y2: Float = 0.toFloat()
-    private var operation: Int = 0
+    var x: Float = 0.toFloat()
+    var y: Float = 0.toFloat()
+    var x1: Float = 0.toFloat()
+    var y1: Float = 0.toFloat()
+    var x2: Float = 0.toFloat()
+    var y2: Float = 0.toFloat()
+    var operation: Int = 0
 
     constructor(x: Float, y: Float) {
         this.x = x
