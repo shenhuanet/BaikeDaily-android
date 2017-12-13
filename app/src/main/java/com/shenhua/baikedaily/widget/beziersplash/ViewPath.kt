@@ -1,4 +1,4 @@
-package com.shenhua.baikedaily.widget
+package com.shenhua.baikedaily.widget.beziersplash
 
 /**
  * Created by shenhua on 2017-11-23-0023.

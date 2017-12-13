@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context="com.shenhua.baikedaily.ui.SplashActivity">
 
-    <com.shenhua.baikedaily.widget.SplashView
+    <com.shenhua.baikedaily.widget.beziersplash.SplashView
         android:id="@+id/splashView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

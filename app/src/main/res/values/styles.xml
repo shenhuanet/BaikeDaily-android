@@ -6,11 +6,16 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorWindow</item>
     </style>
 
     <style name="FullScreenTheme" parent="AppTheme">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="TimeTextView">
+        <item name="android:textSize">14sp</item>
     </style>
 
 </resources>

@@ -1,4 +1,4 @@
-package com.shenhua.baikedaily.widget
+package com.shenhua.baikedaily.widget.beziersplash
 
 import android.animation.*
 import android.content.Context
