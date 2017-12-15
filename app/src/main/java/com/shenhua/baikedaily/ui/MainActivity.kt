@@ -32,11 +32,29 @@ class MainActivity : AppCompatActivity(), OnSwipeListener<String> {
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        val datas = ArrayList<String>()
-        (0 until SwipeCardConfig.DEFAULT_ITEM_COUNT).mapTo(datas) { "i:$it" }
-        recyclerView.itemAnimator = DefaultItemAnimator()
-        recyclerView.adapter = CardAdapter(this, datas)
-        recyclerView.layoutManager = SwipeCardLayoutManager(recyclerView, datas, this)
     }
 
+    override fun onResume() {
+        super.onResume()
+        getData()
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    private fun getData() {
+        loading.start()
+        Thread(Runnable {
+            Thread.sleep(5000)
+            val datas = ArrayList<String>()
+            (0 until SwipeCardConfig.DEFAULT_ITEM_COUNT).mapTo(datas) { "i:$it" }
+            runOnUiThread {
+                recyclerView.itemAnimator = DefaultItemAnimator()
+                recyclerView.adapter = CardAdapter(this, datas)
+                recyclerView.layoutManager = SwipeCardLayoutManager(recyclerView, datas, this)
+                loading.stop()
+            }
+        }).start()
+    }
 }
