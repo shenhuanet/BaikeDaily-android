@@ -18,4 +18,14 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="Toolbar" parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="actionMenuTextColor">@android:color/white</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+    </style>
+
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">14sp</item>
+    </style>
+
 </resources>

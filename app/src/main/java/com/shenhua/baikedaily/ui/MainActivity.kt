@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.widget.Toast
 import com.shenhua.baikedaily.R
 import com.shenhua.baikedaily.arch.RetrofitClient
 import com.shenhua.baikedaily.bean.Baike
@@ -14,6 +13,7 @@ import com.shenhua.baikedaily.ui.adapter.CardAdapter
 import com.shenhua.baikedaily.widget.swipecard.OnSwipeListener
 import com.shenhua.baikedaily.widget.swipecard.SwipeCardLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.startActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), OnSwipeListener<Baike> {
         adapter?.setOnItemClickListener(object : BaseRecyclerAdapter.OnItemClickListener<Baike> {
 
             override fun onItemClick(view: View, position: Int, data: Baike) {
-                Toast.makeText(this@MainActivity, data.link, Toast.LENGTH_SHORT).show()
+                startActivity<ContentActivity>("link" to data.link, "title" to data.title)
             }
         })
     }
@@ -53,14 +53,6 @@ class MainActivity : AppCompatActivity(), OnSwipeListener<Baike> {
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         getData()
-    }
-
-    override fun onResume() {
-        super.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
     }
 
     private fun getData() {
