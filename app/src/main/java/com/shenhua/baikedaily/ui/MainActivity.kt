@@ -4,20 +4,28 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.RecyclerView
+import android.view.View
+import android.widget.Toast
 import com.shenhua.baikedaily.R
+import com.shenhua.baikedaily.arch.RetrofitClient
+import com.shenhua.baikedaily.bean.Baike
+import com.shenhua.baikedaily.ui.adapter.BaseRecyclerAdapter
 import com.shenhua.baikedaily.ui.adapter.CardAdapter
 import com.shenhua.baikedaily.widget.swipecard.OnSwipeListener
-import com.shenhua.baikedaily.widget.swipecard.SwipeCardConfig
 import com.shenhua.baikedaily.widget.swipecard.SwipeCardLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import kotlin.concurrent.thread
 
-class MainActivity : AppCompatActivity(), OnSwipeListener<String> {
+class MainActivity : AppCompatActivity(), OnSwipeListener<Baike> {
 
     override fun onSwiping(viewHolder: RecyclerView.ViewHolder, ratio: Float, direction: Int) {
         println("onSwiping")
     }
 
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, t: String, direction: Int) {
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, t: Baike, direction: Int) {
         println("onSwiped")
     }
 
@@ -25,18 +33,30 @@ class MainActivity : AppCompatActivity(), OnSwipeListener<String> {
         println("onSwipedClear")
     }
 
+    private var datas: ArrayList<Baike> = ArrayList<Baike>()
+    private var adapter: CardAdapter? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        recyclerView.itemAnimator = DefaultItemAnimator()
+        adapter = CardAdapter(this, datas)
+        recyclerView.adapter = adapter
+        adapter?.setOnItemClickListener(object : BaseRecyclerAdapter.OnItemClickListener<Baike> {
+
+            override fun onItemClick(view: View, position: Int, data: Baike) {
+                Toast.makeText(this@MainActivity, data.link, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
+        getData()
     }
 
     override fun onResume() {
         super.onResume()
-        getData()
     }
 
     override fun onPause() {
@@ -45,16 +65,21 @@ class MainActivity : AppCompatActivity(), OnSwipeListener<String> {
 
     private fun getData() {
         loading.start()
-        Thread(Runnable {
-            Thread.sleep(5000)
-            val datas = ArrayList<String>()
-            (0 until SwipeCardConfig.DEFAULT_ITEM_COUNT).mapTo(datas) { "i:$it" }
-            runOnUiThread {
-                recyclerView.itemAnimator = DefaultItemAnimator()
-                recyclerView.adapter = CardAdapter(this, datas)
-                recyclerView.layoutManager = SwipeCardLayoutManager(recyclerView, datas, this)
-                loading.stop()
-            }
-        }).start()
+        thread {
+            val r = RetrofitClient().getInstance().getBaikeList("1", "")
+            r.enqueue(object : Callback<ArrayList<Baike>> {
+                override fun onResponse(call: Call<ArrayList<Baike>>?, response: Response<ArrayList<Baike>>?) {
+                    datas = response?.body()!!
+                    recyclerView.layoutManager = SwipeCardLayoutManager(recyclerView, datas, this@MainActivity)
+                    adapter!!.datas = datas
+                    loading.stop()
+                }
+
+                override fun onFailure(call: Call<ArrayList<Baike>>?, t: Throwable?) {
+                    println(t)
+                    loading.stop()
+                }
+            })
+        }
     }
 }

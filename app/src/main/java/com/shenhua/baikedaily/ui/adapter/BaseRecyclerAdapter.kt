@@ -37,11 +37,11 @@ abstract class BaseRecyclerAdapter<T>(protected var mContext: Context, datas: Ar
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseRecyclerViewHolder {
         val holder = BaseRecyclerViewHolder(mContext, mInflater.inflate(getItemViewId(viewType), parent, false), viewType)
         if (mOnItemClickListener != null) {
-            holder.itemView.setOnClickListener { v -> mOnItemClickListener!!.OnItemClick(v, holder.layoutPosition, mDatas!![holder.adapterPosition]) }
+            holder.itemView.setOnClickListener { v -> mOnItemClickListener!!.onItemClick(v, holder.layoutPosition, mDatas!![holder.adapterPosition]) }
         }
         if (mOnItemLongClickListener != null) {
             holder.itemView.setOnLongClickListener { view ->
-                mOnItemLongClickListener!!.OnItemLongClick(view, holder.layoutPosition, mDatas!![holder.adapterPosition])
+                mOnItemLongClickListener!!.onItemLongClick(view, holder.layoutPosition, mDatas!![holder.adapterPosition])
                 true
             }
         }
@@ -85,11 +85,11 @@ abstract class BaseRecyclerAdapter<T>(protected var mContext: Context, datas: Ar
     }
 
     interface OnItemClickListener<T> {
-        fun OnItemClick(view: View, position: Int, data: T)
+        fun onItemClick(view: View, position: Int, data: T)
     }
 
     interface OnItemLongClickListener<T> {
-        fun OnItemLongClick(view: View, position: Int, data: T): Boolean
+        fun onItemLongClick(view: View, position: Int, data: T): Boolean
     }
 
     class BaseRecyclerViewHolder(private val mContext: Context, itemView: View, val viewType: Int) : RecyclerView.ViewHolder(itemView) {

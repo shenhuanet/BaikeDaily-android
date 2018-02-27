@@ -2,7 +2,7 @@ package com.shenhua.baikedaily.arch
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.shenhua.baikedaily.bean.Item
+import com.shenhua.baikedaily.bean.Baike
 
 /**
  * Created by shenhua on 2017-12-14-0014.
@@ -11,13 +11,6 @@ import com.shenhua.baikedaily.bean.Item
  */
 class ItemViewModel : ViewModel() {
 
-    var items: MutableLiveData<ArrayList<Item>>? = null
-
-//    fun getItems(): LiveData<ArrayList<Item>> {
-//        if (items == null) {
-//            items = MutableLiveData()
-//        }
-//        return items
-//    }
+    var items: MutableLiveData<ArrayList<Baike>>? = null
 
 }

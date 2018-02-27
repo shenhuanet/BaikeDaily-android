@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BaikeDaily-android.iml" filepath="$PROJECT_DIR$/BaikeDaily-android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/BaikeDailyandroid.iml" filepath="$PROJECT_DIR$/BaikeDailyandroid.iml" />
+      <module fileurl="file://E:\shenhua\Androids\BaikeDaily-android\BaikeDailyandroid.iml" filepath="E:\shenhua\Androids\BaikeDaily-android\BaikeDailyandroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
