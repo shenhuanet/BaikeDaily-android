@@ -1,12 +1,13 @@
 package com.shenhua.baikedaily.ui
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.shenhua.baikedaily.R
-import com.shenhua.baikedaily.arch.RetrofitClient
+import com.shenhua.baikedaily.arch.BaikeViewModel
 import com.shenhua.baikedaily.bean.Baike
 import com.shenhua.baikedaily.ui.adapter.BaseRecyclerAdapter
 import com.shenhua.baikedaily.ui.adapter.CardAdapter
@@ -14,10 +15,7 @@ import com.shenhua.baikedaily.widget.swipecard.OnSwipeListener
 import com.shenhua.baikedaily.widget.swipecard.SwipeCardLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.startActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import kotlin.concurrent.thread
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), OnSwipeListener<Baike> {
 
@@ -35,10 +33,15 @@ class MainActivity : AppCompatActivity(), OnSwipeListener<Baike> {
 
     private var datas: ArrayList<Baike> = ArrayList<Baike>()
     private var adapter: CardAdapter? = null
+    @Inject
+    private var viewModel: BaikeViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        DaggerMainActivityComponent.create().inject(this)
+
         recyclerView.itemAnimator = DefaultItemAnimator()
         adapter = CardAdapter(this, datas)
         recyclerView.adapter = adapter
@@ -57,21 +60,10 @@ class MainActivity : AppCompatActivity(), OnSwipeListener<Baike> {
 
     private fun getData() {
         loading.start()
-        thread {
-            val r = RetrofitClient().getInstance().getBaikeList("1", "")
-            r.enqueue(object : Callback<ArrayList<Baike>> {
-                override fun onResponse(call: Call<ArrayList<Baike>>?, response: Response<ArrayList<Baike>>?) {
-                    datas = response?.body()!!
-                    recyclerView.layoutManager = SwipeCardLayoutManager(recyclerView, datas, this@MainActivity)
-                    adapter!!.datas = datas
-                    loading.stop()
-                }
-
-                override fun onFailure(call: Call<ArrayList<Baike>>?, t: Throwable?) {
-                    println(t)
-                    loading.stop()
-                }
-            })
-        }
+        viewModel!!.getItems().observe(this, Observer<ArrayList<Baike>> {
+            recyclerView.layoutManager = SwipeCardLayoutManager(recyclerView, datas, this@MainActivity)
+            adapter!!.datas = datas
+            loading.stop()
+        })
     }
 }

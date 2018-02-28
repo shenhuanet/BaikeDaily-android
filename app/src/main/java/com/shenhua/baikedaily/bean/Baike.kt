@@ -1,11 +1,14 @@
 package com.shenhua.baikedaily.bean
 
+import android.arch.persistence.room.Entity
+
 /**
  * Created by shenhua on 2018-02-27-0027.
  *
  * @author shenhua
  * Email shenhuanet@126.com
  */
+@Entity(primaryKeys = arrayOf("itemId"))
 class Baike {
 
     /**
@@ -21,7 +24,6 @@ class Baike {
      * pv : 34135
      * total : 753
      */
-
     var itemId: Int = 0
     var title: String? = null
     var link: String? = null
@@ -32,15 +34,15 @@ class Baike {
     var pic: String? = null
     var pv: Int = 0
     var total: Int = 0
-    var related: List<RelatedBean>? = null
-
-    class RelatedBean {
-        /**
-         * title : 半斤八两
-         * url : https://baike.baidu.com/item/%E5%8D%8A%E6%96%A4%E5%85%AB%E4%B8%A4/1476
-         */
-
-        var title: String? = null
-        var url: String? = null
-    }
+//    var related: List<RelatedBean>? = null
+//
+//    class RelatedBean {
+//        /**
+//         * title : 半斤八两
+//         * url : https://baike.baidu.com/item/%E5%8D%8A%E6%96%A4%E5%85%AB%E4%B8%A4/1476
+//         */
+//
+//        var title: String? = null
+//        var url: String? = null
+//    }
 }
